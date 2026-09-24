@@ -327,6 +327,22 @@ the workflow: local tmux on bottom, SSH into a server, start tmux there (status 
 
 works on wayland (swaync) and X11 (dunst). no dbus hacks.
 
+#### claude code
+
+kitty turns Claude Code's terminal notifications into desktop ones, but inside tmux those escape sequences never reach kitty. `scripts/claude-notify.sh` is a Claude Code `Notification` hook that calls `notify-send` directly (only when running inside tmux, so no duplicates in bare kitty). the notification shows the project and tmux `session:window`; clicking it jumps your tmux client to the pane that asked.
+
+add to `~/.claude/settings.json`:
+
+```json
+"hooks": {
+  "Notification": [
+    { "hooks": [ { "type": "command", "command": "~/.config/tmux/scripts/claude-notify.sh", "timeout": 10 } ] }
+  ]
+}
+```
+
+needs `jq` and `notify-send`.
+
 ---
 
 ### `~/directory-structure`
@@ -341,7 +357,10 @@ works on wayland (swaync) and X11 (dunst). no dbus hacks.
 │   ├── task-status.sh     focus dashboard: tracking + context + task + timer
 │   ├── git-status.sh      branch + color-coded sync icon
 │   ├── pr-status.sh       open PR count via gh (60s cache)
-│   └── pass-menu.sh       fzf popup for pass (password-store)
+│   ├── pass-menu.sh       fzf popup for pass (password-store)
+│   └── claude-notify.sh   Claude Code hook → notify-send from inside tmux
+├── assets/
+│   └── claude.png         icon for claude-notify.sh
 └── plugins/               TPM-managed (don't touch)
 ```
 
