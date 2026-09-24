@@ -329,7 +329,7 @@ works on wayland (swaync) and X11 (dunst). no dbus hacks.
 
 #### claude code
 
-kitty turns Claude Code's terminal notifications into desktop ones, but inside tmux those escape sequences never reach kitty. `scripts/claude-notify.sh` is a Claude Code `Notification` hook that calls `notify-send` directly (only when running inside tmux, so no duplicates in bare kitty). the notification shows the project and tmux `session:window`; clicking it jumps your tmux client to the pane that asked.
+kitty turns Claude Code's terminal notifications into desktop ones, but inside tmux those escape sequences never reach kitty. `scripts/claude-notify.sh` is a Claude Code `Notification` hook that calls `notify-send` directly (only when running inside tmux, so no duplicates in bare kitty). the notification shows the project and tmux `session:window`; clicking it focuses the kitty window (switching Hyprland workspace if needed) and jumps your tmux client to the pane that asked.
 
 add to `~/.claude/settings.json`:
 
